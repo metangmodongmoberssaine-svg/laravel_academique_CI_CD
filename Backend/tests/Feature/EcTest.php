@@ -133,7 +133,7 @@ class EcTest extends TestCase
             'nbc_ec' => 1,
             'code_ue' => $this->ue->code_ue,
         ]);
-
+    #...#
         $response = $this->getJson("/api/ecs/download-image/{$ec->code_ec}");
 
         $response->assertStatus(404);
