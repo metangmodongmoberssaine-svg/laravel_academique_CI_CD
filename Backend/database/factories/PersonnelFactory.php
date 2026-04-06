@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Personnel>
- */
 class PersonnelFactory extends Factory
 {
     protected $model = Personnel::class;
@@ -18,7 +15,7 @@ class PersonnelFactory extends Factory
     {
         return [
             'id' => (string) Str::uuid(),
-            'code_pers' => $this->faker->unique()->bothify('PERS###'),
+            'code_pers' => $this->faker->unique()->bothify('PERS###'),  // ← Ceci génère "PERS123"
             'nom_pers' => $this->faker->name,
             'sexe_pers' => $this->faker->randomElement(['Masculin', 'Feminin']),
             'phone_pers' => $this->faker->unique()->phoneNumber(),
