@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Ue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +21,9 @@ class EcFactory extends Factory
             'code_ec' => $this->faker->unique()->bothify('EC###'),
             'label_ec' => $this->faker->words(1, true),
             'desc_ec' => $this->faker->sentence(),
-            'nbh_ec' => $this->faker->randomDigit(),
-            'nbc_ec' => $this->faker->randomDigit(),
-            'code_ue' => \App\Models\Ue::inRandomOrder()->value('code_ue'),
+            'nbh_ec' => $this->faker->numberBetween(1, 100),
+            'nbc_ec' => $this->faker->numberBetween(1, 10),
+            'code_ue' => Ue::factory(),
         ];
     }
 }

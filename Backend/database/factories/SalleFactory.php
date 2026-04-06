@@ -18,7 +18,7 @@ class SalleFactory extends Factory
     {
         return [
             'num_salle' => $this->faker->unique()->bothify('CF###'),
-            'contenance' => $this->faker->randomDigit(),
+            'contenance' => $this->faker->numberBetween(10, 100),
             'status' => $this->faker->randomElement(['Disponible', 'Indisponible']),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Filiere;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,11 +18,10 @@ class NiveauFactory extends Factory
     public function definition(): array
     {
         return [
-
+            // code_niveau est auto-incrémenté, NE PAS LE METTRE ICI
             'label_niveau' => $this->faker->words(1, true),
             'desc_niveau' => $this->faker->words(1, true),
-            // 🔥 Récupère un code existant dans la table filiere
-            'code_filiere' => \App\Models\Filiere::inRandomOrder()->value('code_filiere'),
+            'code_filiere' => Filiere::factory(),
         ];
     }
 }
