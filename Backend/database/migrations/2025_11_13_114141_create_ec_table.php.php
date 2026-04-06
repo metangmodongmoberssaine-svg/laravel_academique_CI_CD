@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('nbh_ec');
             $table->integer('nbc_ec');
 
-            // 🖼️ Image de l'EC (chemin du fichier)
+            //  Image de l'EC (chemin du fichier)
             $table->string('image_ec')->nullable();
 
             $table->string('code_ue', 20);
