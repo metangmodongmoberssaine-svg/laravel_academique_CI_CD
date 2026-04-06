@@ -25,15 +25,13 @@ class ProgrammationTest extends TestCase
     {
         parent::setUp();
 
-        // Authentification (via ton trait)
         $this->authenticatePersonnel();
 
-        // Créer manuellement les dépendances dans l'ordre
+        // Créer les dépendances dans l'ordre
         $filiere = Filiere::factory()->create();
         $niveau = Niveau::factory()->create(['code_filiere' => $filiere->code_filiere]);
         $ue = Ue::factory()->create(['code_niveau' => $niveau->code_niveau]);
         
-        // Maintenant créer EC avec l'UE existante
         $this->ec = Ec::factory()->create(['code_ue' => $ue->code_ue]);
         $this->salle = Salle::factory()->create();
         $this->personnel = Personnel::factory()->create();
@@ -42,7 +40,7 @@ class ProgrammationTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function can_list_programmations()
     {
-        // Créer des programmations avec l'EC existant
+        // Créer des programmations avec les dépendances existantes
         Programmation::factory()->count(3)->create([
             'code_ec' => $this->ec->code_ec,
             'num_salle' => $this->salle->num_salle,

@@ -18,16 +18,11 @@ class ProgrammationFactory extends Factory
         $heureDebut = $this->faker->time('H:i');
         $heureFin = date('H:i', strtotime($heureDebut . ' +2 hours'));
 
-        // Créer d'abord les dépendances pour avoir leurs clés
-        $ec = Ec::factory()->create();
-        $salle = Salle::factory()->create();
-        $personnel = Personnel::factory()->create();
-
         return [
             'id' => (string) Str::uuid(),
-            'code_ec' => $ec->code_ec,
-            'num_salle' => $salle->num_salle,
-            'code_pers' => $personnel->code_pers, // Utiliser code_pers, pas l'UUID
+            'code_ec' => Ec::factory(),
+            'num_salle' => Salle::factory(),
+            'code_pers' => Personnel::factory(),
             'date' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),
             'heure_debut' => $heureDebut,
             'heure_fin' => $heureFin,
