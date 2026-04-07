@@ -11,7 +11,8 @@ use Tests\Traits\ApiTokenTrait;
 
 class FiliereTest extends TestCase
 {
-    use ApiTokenTrait, RefreshDatabase;
+    use ApiTokenTrait;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {

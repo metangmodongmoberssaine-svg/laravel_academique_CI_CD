@@ -18,7 +18,8 @@ use Tests\Traits\ApiTokenTrait;
 
 class ProgrammationTest extends TestCase
 {
-    use ApiTokenTrait, RefreshDatabase;
+    use ApiTokenTrait;
+    use RefreshDatabase;
 
     #[Test]
     public function can_list_programmations()

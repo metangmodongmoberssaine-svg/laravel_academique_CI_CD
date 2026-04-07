@@ -14,7 +14,8 @@ use Tests\Traits\ApiTokenTrait;
 
 class EcTest extends TestCase
 {
-    use ApiTokenTrait, RefreshDatabase;
+    use ApiTokenTrait;
+    use RefreshDatabase;
 
     protected $ue;
 

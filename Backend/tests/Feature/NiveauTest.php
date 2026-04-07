@@ -11,7 +11,8 @@ use Tests\Traits\ApiTokenTrait;
 
 class NiveauTest extends TestCase
 {
-    use ApiTokenTrait, RefreshDatabase;
+    use ApiTokenTrait;
+    use RefreshDatabase;
 
     protected $filiere;
 

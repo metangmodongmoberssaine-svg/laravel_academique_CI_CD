@@ -9,7 +9,8 @@ use Laravel\Sanctum\HasApiTokens; // ✅ ajouter ceci
 
 class Personnel extends Authenticatable
 {
-    use HasApiTokens, HasFactory; // ✅ ici aussi tout en majuscule
+    use HasApiTokens;
+    use HasFactory; // ✅ ici aussi tout en majuscule
 
     protected $table = 'personnels';
 

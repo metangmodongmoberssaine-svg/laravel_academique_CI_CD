@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class PersonnelCredentialsMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     // On déclare les variables publiques pour qu'elles soient accessibles dans la vue Blade
     public $personnel;

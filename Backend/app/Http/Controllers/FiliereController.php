@@ -134,6 +134,6 @@ class FiliereController extends Controller
     {
         Log::channel('audit')->info('Exportation de la liste des filières en Excel.');
 
-        return Excel::download(new FilieresExport, 'liste_filieres.xlsx');
+        return Excel::download(new FilieresExport(), 'liste_filieres.xlsx');
     }
 }

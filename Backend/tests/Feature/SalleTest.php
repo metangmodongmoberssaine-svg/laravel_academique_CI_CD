@@ -11,7 +11,8 @@ use Tests\Traits\ApiTokenTrait;
 class SalleTest extends TestCase
 {
     // On utilise le nom exact du trait défini dans ApiTokenTrait.php
-    use ApiTokenTrait, RefreshDatabase;
+    use ApiTokenTrait;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {

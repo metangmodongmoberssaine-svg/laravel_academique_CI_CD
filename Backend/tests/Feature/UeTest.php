@@ -12,7 +12,8 @@ use Tests\Traits\ApiTokenTrait;
 
 class UeTest extends TestCase
 {
-    use ApiTokenTrait, RefreshDatabase;
+    use ApiTokenTrait;
+    use RefreshDatabase;
 
     protected $niveau;
 
