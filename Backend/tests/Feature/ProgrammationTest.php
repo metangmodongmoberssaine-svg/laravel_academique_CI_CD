@@ -193,7 +193,7 @@ class ProgrammationTest extends TestCase
 
         $response->assertStatus(200);
         
-        // Vérifier que le statut a bien été mis à jour
+        // Vérifier que le statut a bien été mis à jour de programmations
         $this->assertDatabaseHas('programmations', [
             'id' => $programmation->id,
             'status' => 'Terminé',
