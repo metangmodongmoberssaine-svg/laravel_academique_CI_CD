@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\FromCollection; // On ajoute cette interface
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
- // Pour que les colonnes s'ajustent automatiquement
+// Pour que les colonnes s'ajustent automatiquement
 
 class FilieresExport implements FromCollection, ShouldAutoSize, WithHeadings
 {
