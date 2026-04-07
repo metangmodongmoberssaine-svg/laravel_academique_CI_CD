@@ -54,13 +54,10 @@ jobs:
       working-directory: ./Backend
       run: composer audit || true
 
-    # LINTING - Correction et vérification
     - name: Run Laravel Pint (Code Style)
       working-directory: ./Backend
       run: |
-        # Correction automatique
         ./vendor/bin/pint --preset laravel
-        # Vérification finale
         ./vendor/bin/pint --test
 
     - name: Generate key
@@ -70,15 +67,6 @@ jobs:
     - name: Directory Permissions
       working-directory: ./Backend
       run: chmod -R 777 storage bootstrap/cache
-
-    - name: Clear all cache
-      working-directory: ./Backend
-      run: |
-        php artisan optimize:clear
-        composer dump-autoload
-        php artisan config:clear
-        php artisan cache:clear
-        php artisan view:clear
 
     - name: Run migrations
       working-directory: ./Backend
