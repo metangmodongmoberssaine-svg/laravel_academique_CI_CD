@@ -1,8 +1,9 @@
 FROM php:8.2-fpm-alpine
 
-# 1. Mise à jour de l'index et installation des dépendances système
-# Ajout de apk update pour garantir la fraicheur des dépôts
+# Installation des dépendances système
 RUN apk update && apk add --no-cache \
+    nginx \
+    supervisor \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
@@ -10,33 +11,35 @@ RUN apk update && apk add --no-cache \
     oniguruma-dev \
     zip \
     unzip \
-    git
+    git \
+    curl
 
-# 2. Installation atomique des outils de build
+# Installation des extensions PHP
 RUN apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd \
     && apk del .build-deps
 
-# 3. Installation de Composer
+# Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 4. Dossier de travail
 WORKDIR /var/www
 
-# 5. Copie du code source
+# Copie des configurations Nginx et Supervisor
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copie du code source (on est déjà dans Backend, donc on copie .)
 COPY . .
 
-# 6. Installation des dépendances Laravel avec stratégie de repli
-RUN composer install --no-interaction --optimize-autoloader --no-dev --no-scripts --prefer-dist || \
-    (sleep 5 && composer install --no-interaction --optimize-autoloader --no-dev --no-scripts --prefer-dist)
+# Installation des dépendances Laravel
+RUN composer install --no-interaction --optimize-autoloader --no-dev --prefer-dist
 
-# 7. Configuration des permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Permissions
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
 
-# 8. Exposition du port
-EXPOSE 8001
+EXPOSE 80
 
-# 9. Commande de lancement
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8001}
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

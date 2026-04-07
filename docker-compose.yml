@@ -1,33 +1,97 @@
 services:
-  # 1. Base de données MySQL
+  # Base de données MySQL
   db:
     image: mysql:8.2
     container_name: laravel-academic-DB
     restart: always
     environment:
-      MYSQL_DATABASE: laravel-academic-DB
+      MYSQL_DATABASE: laravel_academic_db
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3308:3306"
     volumes:
       - suivie_db_data:/var/lib/mysql
+    networks:
+      - laravel_network
 
-  # 2. Backend Laravel
+  # Backend Laravel
   backend:
-    build: 
-      context: ./Backend
-      dockerfile: Dockerfile
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
     container_name: suivie-api
+    restart: always
     ports:
-      - "8001:8000"
+      - "8001:80"
     depends_on:
       - db
     environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=mysql
       - DB_HOST=db
       - DB_PORT=3306
-      - DB_DATABASE=laravel-academic-DB
+      - DB_DATABASE=laravel_academic_db
       - DB_USERNAME=root
       - DB_PASSWORD=root
+    volumes:
+      - ./Backend:/var/www
+    networks:
+      - laravel_network
+
+  # PROMETHEUS - Collecte des métriques
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - laravel_network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  # GRAFANA - Visualisation des métriques
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - laravel_network
+    depends_on:
+      - prometheus
+
+  # PHPMyAdmin (optionnel)
+  #phpmyadmin:
+   # image: phpmyadmin/phpmyadmin
+    #container_name: phpmyadmin
+    #restart: always
+    #ports:
+      #- "8080:80"
+    #environment:
+     # - PMA_HOST=db
+      #- PMA_PORT=3306
+    #networks:
+     # - laravel_network
+    #depends_on:
+     # - db
+
+networks:
+  laravel_network:
+    driver: bridge
 
 volumes:
   suivie_db_data:
+  prometheus_data:
+  grafana_data:

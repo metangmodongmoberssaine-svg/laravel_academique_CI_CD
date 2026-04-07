@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Filiere;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Maatwebsite\Excel\Facades\Excel;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Traits\ApiTokenTrait;
 
@@ -19,7 +20,7 @@ class FiliereTest extends TestCase
         $this->authenticatePersonnel();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_create_filiere()
     {
         $payload = [
@@ -36,7 +37,7 @@ class FiliereTest extends TestCase
         $this->assertDatabaseHas('filieres', ['code_filiere' => 'INFOS']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_list_filieres_with_pagination()
     {
         // On crée manuellement quelques filières (ou via une Factory si vous en avez une)
@@ -52,7 +53,7 @@ class FiliereTest extends TestCase
             ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_show_specific_filiere()
     {
         $filiere = Filiere::create([
@@ -67,7 +68,7 @@ class FiliereTest extends TestCase
             ->assertJson(['code_filiere' => 'MATHS']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_update_filiere()
     {
         $filiere = Filiere::create([
@@ -86,7 +87,7 @@ class FiliereTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_delete_filiere()
     {
         $filiere = Filiere::create([
@@ -102,7 +103,7 @@ class FiliereTest extends TestCase
         $this->assertDatabaseMissing('filieres', ['code_filiere' => 'SUPPR']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_export_pdf_returns_success()
     {
         // Créer une donnée pour l'export
@@ -115,7 +116,7 @@ class FiliereTest extends TestCase
             ->assertHeader('content-type', 'application/pdf');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_export_excel_uses_excel_facade()
     {
         Excel::fake(); // On simule Excel pour ne pas générer de vrai fichier

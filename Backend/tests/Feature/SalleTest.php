@@ -4,7 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Salle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase; // On importe le fichier du trait
+use PHPUnit\Framework\Attributes\Test; // On importe le fichier du trait
+use Tests\TestCase;
 use Tests\Traits\ApiTokenTrait;
 
 class SalleTest extends TestCase
@@ -19,7 +20,7 @@ class SalleTest extends TestCase
         $this->authenticatePersonnel();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_create_salle()
     {
         $payload = [
@@ -36,7 +37,7 @@ class SalleTest extends TestCase
         $this->assertDatabaseHas('salles', ['num_salle' => 'SALLE-101']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_create_salle_fails_if_contenance_too_low()
     {
         $payload = [
@@ -51,7 +52,7 @@ class SalleTest extends TestCase
             ->assertJsonValidationErrors(['contenance']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_show_specific_salle()
     {
         $salle = Salle::create([
@@ -66,7 +67,7 @@ class SalleTest extends TestCase
             ->assertJsonPath('data.num_salle', 'SALLE-202');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_update_salle_status()
     {
         $salle = Salle::create([
@@ -86,7 +87,7 @@ class SalleTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_delete_salle()
     {
         $salle = Salle::create([

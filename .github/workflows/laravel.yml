@@ -27,7 +27,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0 # Nécessaire pour un scan complet des secrets
+        fetch-depth: 0
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -36,12 +36,11 @@ jobs:
         extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
         coverage: none
 
-    # --- ÉTAPE DE SÉCURITÉ 1 : SCAN DES SECRETS ---
     - name: Secret Scanning (Gitleaks)
       uses: gitleaks/gitleaks-action@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      continue-on-error: true # Permet de ne pas bloquer si tu as des faux positifs au début
+      continue-on-error: true
 
     - name: Copy .env
       working-directory: ./Backend
@@ -51,10 +50,14 @@ jobs:
       working-directory: ./Backend
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-    # --- ÉTAPE DE SÉCURITÉ 2 : SCAN DES DÉPENDANCES (SCA) ---
     - name: Security Check Dependencies (Composer Audit)
       working-directory: ./Backend
-      run: composer audit || true # Vérifie si tes packages ont des failles connues
+      run: composer audit || true
+
+    #  NOUVELLE ÉTAPE : LINTING (QUALITÉ DU CODE) 
+    - name: Run Laravel Pint (Code Style)
+      working-directory: ./Backend
+      run: ./vendor/bin/pint --test
 
     - name: Generate key
       working-directory: ./Backend
@@ -63,6 +66,26 @@ jobs:
     - name: Directory Permissions
       working-directory: ./Backend
       run: chmod -R 777 storage bootstrap/cache
+
+    - name: Clear all cache
+      working-directory: ./Backend
+      run: |
+        php artisan optimize:clear
+        composer dump-autoload
+        php artisan config:clear
+        php artisan cache:clear
+        php artisan view:clear
+
+    - name: Run migrations
+      working-directory: ./Backend
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_DATABASE: testing
+        DB_USERNAME: root
+        DB_PASSWORD: root
+      run: php artisan migrate:fresh --seed --env=testing
 
     - name: Execute tests
       working-directory: ./Backend
@@ -73,4 +96,4 @@ jobs:
         DB_DATABASE: testing
         DB_USERNAME: root
         DB_PASSWORD: root
-      run: php artisan test
+      run: php artisan test --env=testing

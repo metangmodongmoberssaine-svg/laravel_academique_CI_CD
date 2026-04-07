@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Filiere;
 use App\Models\Niveau;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Traits\ApiTokenTrait;
 
@@ -26,7 +27,7 @@ class NiveauTest extends TestCase
         $this->filiere = Filiere::factory()->create();
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_list_niveaux_with_pagination()
     {
         Niveau::factory()->count(15)->create();
@@ -43,7 +44,7 @@ class NiveauTest extends TestCase
             ->assertJsonCount(10, 'data');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_create_niveau()
     {
         $payload = [
@@ -63,7 +64,7 @@ class NiveauTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_show_specific_niveau()
     {
         $niveau = Niveau::factory()->create([
@@ -76,7 +77,7 @@ class NiveauTest extends TestCase
             ->assertJsonPath('data.label_niveau', 'Master 1 Architecture');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_update_niveau_details()
     {
         $niveau = Niveau::factory()->create(['label_niveau' => 'Ancien Niveau']);
@@ -92,7 +93,7 @@ class NiveauTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_delete_niveau()
     {
         $niveau = Niveau::factory()->create();
@@ -107,7 +108,7 @@ class NiveauTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_cannot_create_niveau_with_invalid_filiere()
     {
         $payload = [

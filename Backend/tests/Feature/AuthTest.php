@@ -5,13 +5,14 @@ namespace Tests\Feature;
 use App\Models\Personnel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_login_success()
     {
         // 1. Créer un personnel
@@ -41,7 +42,7 @@ class AuthTest extends TestCase
             ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_login_fails_with_wrong_password()
     {
         $personnel = Personnel::create([

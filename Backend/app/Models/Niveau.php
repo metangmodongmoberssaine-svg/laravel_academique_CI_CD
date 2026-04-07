@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Niveau extends Model
 {
@@ -29,7 +30,7 @@ class Niveau extends Model
     /**
      * Relation avec le modèle Filiere
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     /*******  ebe195f0-31db-4fda-b680-46100519c5c5  *******/
     public function filiere()

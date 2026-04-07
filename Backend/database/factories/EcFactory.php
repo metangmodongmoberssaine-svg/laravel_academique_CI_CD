@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Ec;
 use App\Models\Ue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ec>
+ * @extends Factory<Ec>
  */
 class EcFactory extends Factory
 {

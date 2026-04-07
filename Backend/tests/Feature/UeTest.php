@@ -6,6 +6,7 @@ use App\Models\Filiere;
 use App\Models\Niveau;
 use App\Models\Ue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Traits\ApiTokenTrait;
 
@@ -27,7 +28,7 @@ class UeTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_list_ues_with_pagination()
     {
         Ue::factory()->count(3)->create(['code_niveau' => $this->niveau->code_niveau]);
@@ -38,7 +39,7 @@ class UeTest extends TestCase
             ->assertJsonStructure(['data', 'current_page', 'last_page']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_create_ue()
     {
         $payload = [
@@ -53,7 +54,7 @@ class UeTest extends TestCase
         $this->assertDatabaseHas('ues', ['code_ue' => 'UE-MATH1']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_show_specific_ue()
     {
         $ue = Ue::create([
@@ -65,7 +66,7 @@ class UeTest extends TestCase
         $response->assertStatus(200);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_delete_ue()
     {
         $ue = Ue::create([

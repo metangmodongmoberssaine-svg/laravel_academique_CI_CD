@@ -8,6 +8,7 @@ use App\Models\Niveau;
 use App\Models\Ue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Traits\ApiTokenTrait;
 
@@ -47,7 +48,7 @@ class EcTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_create_ec_with_image()
     {
         Storage::fake('public');
@@ -67,7 +68,7 @@ class EcTest extends TestCase
         $this->assertDatabaseHas('ecs', ['code_ec' => 'EC-ALGO2']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_list_ecs_with_pagination()
     {
         Ec::firstOrCreate(
@@ -81,7 +82,7 @@ class EcTest extends TestCase
             ->assertJsonStructure(['data', 'meta']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_update_ec_details()
     {
         $ec = Ec::create([
@@ -100,7 +101,7 @@ class EcTest extends TestCase
         $this->assertDatabaseHas('ecs', ['code_ec' => 'EC-UPDATE', 'label_ec' => 'Nouveau Label']);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_can_delete_ec_and_cleanup_storage()
     {
         Storage::fake('public');
@@ -123,7 +124,7 @@ class EcTest extends TestCase
         Storage::disk('public')->assertMissing($path);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function test_download_pdf_fails_if_no_image()
     {
         $ec = Ec::create([
@@ -133,7 +134,7 @@ class EcTest extends TestCase
             'nbc_ec' => 1,
             'code_ue' => $this->ue->code_ue,
         ]);
-    #...#
+        // ...#
         $response = $this->getJson("/api/ecs/download-image/{$ec->code_ec}");
 
         $response->assertStatus(404);

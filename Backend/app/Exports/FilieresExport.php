@@ -3,14 +3,17 @@
 namespace App\Exports;
 
 use App\Models\Filiere;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize; // On ajoute cette interface
-use Maatwebsite\Excel\Concerns\WithHeadings; // Pour que les colonnes s'ajustent automatiquement
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection; // On ajoute cette interface
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
+ // Pour que les colonnes s'ajustent automatiquement
 
 class FilieresExport implements FromCollection, ShouldAutoSize, WithHeadings
 {
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function collection()
     {
