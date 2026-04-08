@@ -2,27 +2,22 @@
 
 namespace Database\Factories;
 
-use App\Models\Ec;
 use App\Models\Ue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Ec>
- */
 class EcFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected static $counter = 1;
+
     public function definition(): array
     {
+        $current = self::$counter++;
+        
         return [
-            'code_ec' => $this->faker->unique()->bothify('EC###'),
-            'label_ec' => $this->faker->words(1, true),
+            'code_ec' => 'EC' . str_pad($current, 3, '0', STR_PAD_LEFT),
+            'label_ec' => 'Enseignement ' . $current,
             'desc_ec' => $this->faker->sentence(),
-            'nbh_ec' => $this->faker->numberBetween(1, 100),
+            'nbh_ec' => $this->faker->numberBetween(10, 60),
             'nbc_ec' => $this->faker->numberBetween(1, 10),
             'code_ue' => Ue::factory(),
         ];

@@ -2,23 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Salle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Salle>
- */
 class SalleFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected static $counter = 1;
+
     public function definition(): array
     {
+        $current = self::$counter++;
+        
         return [
-            'num_salle' => $this->faker->unique()->bothify('CF###'),
+            'num_salle' => 'SAL' . str_pad($current, 3, '0', STR_PAD_LEFT),
             'contenance' => $this->faker->numberBetween(10, 100),
             'status' => $this->faker->randomElement(['Disponible', 'Indisponible']),
         ];

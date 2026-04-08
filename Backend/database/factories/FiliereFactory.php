@@ -2,24 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Filiere;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Filiere>
- */
 class FiliereFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected static $counter = 1;
+
     public function definition(): array
     {
+        $current = self::$counter++;
+        
         return [
-            'code_filiere' => $this->faker->unique()->bothify('FILIERE###'),
-            'label_filiere' => $this->faker->words(1, true),
+            'code_filiere' => 'FIL' . str_pad($current, 3, '0', STR_PAD_LEFT),
+            'label_filiere' => 'Filière ' . $current,
             'desc_filiere' => $this->faker->sentence(),
         ];
     }
