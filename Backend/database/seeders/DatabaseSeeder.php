@@ -10,17 +10,24 @@ use App\Models\Ec;
 use App\Models\Personnel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;  // ← AJOUTE CETTE LIGNE !
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Vider les tables avant de remplir (alternative à wipe)
-        Filiere::truncate();
-        Niveau::truncate();
-        Ue::truncate();
+        // Désactiver temporairement les contraintes de clés étrangères
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');  // ← AJOUTE LE POINT-VIRGULE !
+        
+        // Vider les tables dans l'ordre inverse des dépendances
         Ec::truncate();
+        Ue::truncate();
+        Niveau::truncate();
+        Filiere::truncate();
         Personnel::truncate();
+        
+        // Réactiver les contraintes
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');  
         
         // 1. Créer une filière
         $filiere = Filiere::create([
